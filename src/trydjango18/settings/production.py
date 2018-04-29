@@ -45,8 +45,8 @@ if not settings.DEBUG:
 	#purchasing domain name http://name.com
 
 	EMAIL_HOST = 'smtp.gmail.com'
-	EMAIL_HOST_USER = 'yourgmail@gmail.com'
-	EMAIL_HOST_PASSWORD = 'yourpassword'
+	EMAIL_HOST_USER = 'nohierassan2@gmail.com'
+	EMAIL_HOST_PASSWORD = 'chelsea4u'
 	EMAIL_PORT = 587
 	EMAIL_USE_TLS = True
 
