@@ -7,7 +7,7 @@ from .models import Book
 
 class BookAdmin(admin.ModelAdmin):
     list_display = [
-        "__unicode__",
+        "__str__",
         "slug",
     ]
     readonly_fields = ['slug', 'updated', 'timestamp', 'added_by', "last_edited_by"]

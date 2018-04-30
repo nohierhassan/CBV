@@ -73,8 +73,9 @@ if not settings.DEBUG:
 	    #third party apps
 	    'crispy_forms',
 	    'registration',
-	    #my apps
-	    'newsletter',
+		# my apps
+		'dashboard',
+		'newsletter',
 	)
 
 	MIDDLEWARE_CLASSES = (

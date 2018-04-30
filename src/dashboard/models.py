@@ -18,9 +18,9 @@ class Book(models.Model):
 	updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 
-	class Meta:
-		ordering = ["-timestamp", "-updated"]
-		#unique_together = ("title", "slug")
+	# class Meta:
+	# 	ordering = ["-timestamp", "-updated"]
+	# 	#unique_together = ("title", "slug")
 
 	def __str__(self):
 		return self.title
@@ -34,6 +34,7 @@ class Book(models.Model):
 
 def pre_save_book(sender, instance, *args, **kwargs):
 	slug = slugify(instance.title)
+	print(slug)
 	instance.slug = slug
 
 
