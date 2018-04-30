@@ -36,4 +36,8 @@ class Myview(LoginRequiredMixin_mine,TemplateResponseMixin,ContextMixin,View):
 #  @method_decorator(login_required) // will work on the specified method only
 #  if you put it over the dispatch() // will work on the class itself
 #  Then you can make your won Mixin // the mixin must be the first argument in the class
-
+#  or :
+#  override the dispatch() method in your custom mixin class and add the method_decorator(login_required)
+#  in it
+#  Then:
+#  use your class as a mixin
