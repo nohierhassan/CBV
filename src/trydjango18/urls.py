@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from dashboard.views import DashBoardTemplateView,Myview,BookDetail,BookList
-from dashboard.views import BookCreate
+from dashboard.views import BookCreate,BookUpdate,BookDelete
 
 urlpatterns = [
 
@@ -23,7 +23,8 @@ urlpatterns = [
 
     # the generic Edit Views.
     url(r'^book/create/$', BookCreate.as_view(), name='book_create'),
-
+    url(r'^book/update/(?P<slug>[-\w]+)/$', BookUpdate.as_view(), name='book_update'),
+    url(r'^book/delete/(?P<slug>[-\w]+)/$', BookDelete.as_view(), name='book_delete'),
 
 
     url(r'^admin/', include(admin.site.urls)),

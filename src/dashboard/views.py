@@ -6,6 +6,7 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from .models import Book
 from .forms import BookForm
+from django.http import HttpResponse, Http404
 
 # here are the TemplateViews
 from django.views.generic.base import TemplateView,TemplateResponseMixin,ContextMixin
@@ -15,7 +16,6 @@ from django.views.generic import DetailView,ListView
 
 # here are the generic Edit views
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
-
 
 
 
@@ -66,11 +66,18 @@ class BookCreate(CreateView):
 
 
 
+class BookUpdate(UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name="forms.html"
 
 
 
+class BookDelete(DeleteView):
+    model = Book
 
-
+    def  get_success_url(self,**kwargs):
+        return reverse('book_list')
 
 
 
