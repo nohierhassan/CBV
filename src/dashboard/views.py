@@ -7,9 +7,11 @@ from django.utils.decorators import method_decorator
 from .models import Book
 from .forms import BookForm
 from django.http import HttpResponse, Http404
+from django .contrib import messages
 
 # here are the TemplateViews
 from django.views.generic.base import TemplateView,TemplateResponseMixin,ContextMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 # here are the generic views
 from django.views.generic import DetailView,ListView
@@ -51,17 +53,23 @@ class BookList(ListView):
 # here are the generic Edit Views.
 
 # you mus specify the form to add the data
-class BookCreate(CreateView):
+class BookCreate(SuccessMessageMixin,CreateView):
     template_name="forms.html"
     form_class = BookForm
+    success_message = "%(title)s was created successfully"
 
     def form_valid(self,form):
-        print(form.instance)
+        print(form.instance.title)
         form.instance.added_by=self.request.user
+
         return super(BookCreate,self).form_valid(form)
 
 
     def  get_success_url(self,**kwargs):
+        # This is the old messaging sys.
+        # messages.success(self.request,"Book is created")
+        # %(title)s ----> is the name of the filed
+
         return reverse('book_list')
 
 
