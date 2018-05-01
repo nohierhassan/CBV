@@ -1,12 +1,25 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView,TemplateResponseMixin,ContextMixin
-# Create your views here.
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.generic import View
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView,ListView
 from .models import Book
+from .forms import BookForm
+
+# here are the TemplateViews
+from django.views.generic.base import TemplateView,TemplateResponseMixin,ContextMixin
+
+# here are the generic views
+from django.views.generic import DetailView,ListView
+
+# here are the generic Edit views
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+
+
+
+
+
 
 # Make here your custom mixins classes
 class LoginRequiredMixin_mine(object):
@@ -15,42 +28,41 @@ class LoginRequiredMixin_mine(object):
         view = super(LoginRequiredMixin_mine,cls).as_view(**kwargs)
         return login_required(view)
 
-# here is the Detailed Generic View.
-
+# here are the  Generic Views.
 class BookDetail(DetailView):
     # set up your model here
     model = Book
 
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(BookDetail,self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['title'] = 'This is the title'
-
-        # the passed object id will passe the object itself through the context
-        return context
-
-
 class BookList(ListView):
     model = Book
-
-    def get_context_data(self,**kwargs):
-        context= super(BookList,self).get_context_data(**kwargs)
-        return context
-
-
-
+    # ther is no need for context here object is sent automatically
+    # def get_context_data(self,**kwargs):
+    #     context= super(BookList,self).get_context_data(**kwargs)
+    #     return context
     def  get_queryset(self,*args,**kwargs):
-        qs = super(BookList,self).get_queryset(*args,**kwargs).order_by("timestamp")
+        qs = super(BookList,self).get_queryset(*args,**kwargs).order_by("-timestamp")
         #.filter(title__startswith='A')
         print(qs)
         return qs
 
 
 
+# here are the generic Edit Views.
+
+# you mus specify the form to add the data
+class BookCreate(CreateView):
+    template_name="forms.html"
+    form_class = BookForm
+
+    def form_valid(self,form):
+        print(form.instance)
+        form.instance.added_by=self.request.user
+        return super(BookCreate,self).form_valid(form)
 
 
+    def  get_success_url(self,**kwargs):
+        return reverse('book_list')
 
 
 
